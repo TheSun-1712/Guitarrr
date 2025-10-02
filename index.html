@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIFtar Hero</title>
+    <style>
+        /* Basic CSS for styling and layout */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #1c1e21;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: #4b4f56;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        #chord-gif {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+            border: 1px solid #dddfe2;
+            margin-bottom: 1.5rem;
+        }
+
+        #instructions {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #606770;
+            min-height: 60px; /* Reserve space to prevent layout shifts */
+        }
+
+        .navigation {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #166fe5;
+        }
+        
+        button:disabled {
+            background-color: #ccd0d5;
+            cursor: not-allowed;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎸 GIFtar Hero</h1>
+        <h2 id="chord-name">Chord Name</h2>
+        
+        <img id="chord-gif" src="" alt="Guitar Chord GIF">
+        
+        <p id="instructions">Instructions will appear here.</p>
+        
+        <div class="navigation">
+            <button id="prev-btn">Previous</button>
+            <button id="next-btn">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. YOUR CONTENT GOES HERE ---
+        // This is an array of all your lessons.
+        // To add a new lesson, just add a new object to this array.
+        // IMPORTANT: Replace the gifPath values with the actual file paths to your GIFs!
+        const lessons = [
+            {
+                chordName: "E minor (Em)",
+                gifPath: "images/e-minor-chord-hr.png", // Replace with your Em.gif
+                instructions: "Place your 2nd finger on the 5th string, 2nd fret. Place your 3rd finger on the 4th string, 2nd fret. Strum all six strings."
+            },
+            {
+                chordName: "C major (C)",
+                gifPath: "https://placehold.co/400x300/e74c3c/ffffff?text=C+major+GIF", // Replace with your C.gif
+                instructions: "Place your 3rd finger on the 5th string, 3rd fret. Place your 2nd finger on the 4th string, 2nd fret. Place your 1st finger on the 2nd string, 1st fret."
+            },
+            {
+                chordName: "G major (G)",
+                gifPath: "https://placehold.co/400x300/2ecc71/ffffff?text=G+major+GIF", // Replace with your G.gif
+                instructions: "Place your 2nd finger on the 5th string, 2nd fret. Place your 3rd finger on the 6th string, 3rd fret. Place your 4th finger on the 1st string, 3rd fret."
+            },
+            {
+                chordName: "Strumming Pattern: Down-Down-Up-Up-Down-Up",
+                gifPath: "https://placehold.co/400x300/f1c40f/ffffff?text=Strumming+GIF", // Replace with your strumming.gif
+                instructions: "This is a very common strumming pattern. Practice it slowly with your E minor chord. Try to keep a steady rhythm."
+            }
+        ];
+
+        // --- 2. JAVASCRIPT LOGIC (You don't need to change this) ---
+
+        // Get references to the HTML elements we need to update
+        const chordNameElement = document.getElementById('chord-name');
+        const gifElement = document.getElementById('chord-gif');
+        const instructionsElement = document.getElementById('instructions');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Keep track of the current lesson index
+        let currentLessonIndex = 0;
+
+        // This function updates the page with the content of the current lesson
+        function updateLessonDisplay() {
+            // Get the current lesson object from our array
+            const lesson = lessons[currentLessonIndex];
+            
+            // Update the text and image source on the page
+            chordNameElement.textContent = lesson.chordName;
+            gifElement.src = lesson.gifPath;
+            instructionsElement.textContent = lesson.instructions;
+
+            // Enable/disable buttons based on position in the lessons array
+            // Disable "Previous" if this is the first lesson
+            prevBtn.disabled = (currentLessonIndex === 0);
+            
+            // Disable "Next" if this is the last lesson
+            nextBtn.disabled = (currentLessonIndex === lessons.length - 1);
+        }
+
+        // Event listener for the "Next" button
+        nextBtn.addEventListener('click', () => {
+            if (currentLessonIndex < lessons.length - 1) {
+                currentLessonIndex++;
+                updateLessonDisplay();
+            }
+        });
+
+        // Event listener for the "Previous" button
+        prevBtn.addEventListener('click', () => {
+            if (currentLessonIndex > 0) {
+                currentLessonIndex--;
+                updateLessonDisplay();
+            }
+        });
+
+        // Load the very first lesson when the page loads
+        updateLessonDisplay();
+
+    </script>
+</body>
+</html>
