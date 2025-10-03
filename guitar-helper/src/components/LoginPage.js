@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
-
-// Import Chakra UI components
+import guitarBG from '../assets/guitar-bg.jpg';
 import {
   Box,
   Button,
@@ -13,14 +12,14 @@ import {
   Heading,
   Stack,
   Text,
-  useToast // For showing nice notifications
+  useToast
 } from '@chakra-ui/react';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const toast = useToast(); // Hook for showing pop-up messages
+  const toast = useToast();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -55,42 +54,60 @@ const LoginPage = () => {
   };
 
   return (
-    // Box is like a div, but with styling superpowers
-    <Box maxW="md" mx="auto" mt={10} p={8} borderWidth={1} borderRadius="lg" boxShadow="lg">
-      <Heading as="h1" size="lg" textAlign="center" mb={6}>
-        🎸 GIFtar Hero
-      </Heading>
-      <form>
-        {/* Stack helps arrange items with consistent spacing */}
-        <Stack spacing={4}>
-          <FormControl isRequired>
-            <FormLabel>Email Address</FormLabel>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
-            />
-          </FormControl>
+    // Outer Box for the full screen background
+    <Box
+      minH="100vh" // Make sure it covers the full viewport height
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      backgroundImage={`url(${guitarBg})`} // Guitar image
+      backgroundSize="cover"
+      backgroundPosition="center"
+    >
+      {/* Inner Box for the actual login form content */}
+      <Box
+        maxW="md"
+        p={8}
+        borderWidth={1}
+        borderRadius="lg"
+        boxShadow="lg"
+        bg="whiteAlpha.800" // Semi-transparent white background
+        backdropFilter="blur(8px)" // A nice frosted glass effect
+      >
+        <Heading as="h1" size="lg" textAlign="center" mb={6}>
+          🎸 GIFtar Hero
+        </Heading>
+        <form>
+          <Stack spacing={4}>
+            <FormControl isRequired>
+              <FormLabel>Email Address</FormLabel>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@email.com"
+              />
+            </FormControl>
 
-          <FormControl isRequired>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
-          </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+              />
+            </FormControl>
 
-          <Button colorScheme="blue" onClick={handleLogin}>
-            Login
-          </Button>
-          <Button variant="outline" onClick={handleSignUp}>
-            Sign Up
-          </Button>
-        </Stack>
-      </form>
+            <Button colorScheme="blue" onClick={handleLogin}>
+              Login
+            </Button>
+            <Button variant="outline" onClick={handleSignUp}>
+              Sign Up
+            </Button>
+          </Stack>
+        </form>
+      </Box>
     </Box>
   );
 };
